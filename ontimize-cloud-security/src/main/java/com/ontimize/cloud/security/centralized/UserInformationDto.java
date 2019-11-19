@@ -170,6 +170,7 @@ public class UserInformationDto {
 		Collection<? extends GrantedAuthority> grantedAuthorities = this.authorities.stream().map(x -> new SimpleGrantedAuthority(x)).collect(Collectors.toList());
 		UserInformation userInformation = new UserInformation(this.username, null, this.enabled, this.accountNonExpired, this.credentialsNonExpired, this.accountNonLocked,
 				grantedAuthorities, this.clientPermissions);
+		userInformation.setOtherData(this.otherData);
 		return userInformation;
 	}
 
@@ -177,6 +178,7 @@ public class UserInformationDto {
 		Collection<String> grantedAuthorities = res.getAuthorities().stream().map(x -> x.getAuthority()).collect(Collectors.toList());
 		UserInformationDto userInformationDto = new UserInformationDto(res.getUsername(), res.isEnabled(), res.isAccountNonExpired(), res.isCredentialsNonExpired(),
 				res.isAccountNonLocked(), grantedAuthorities, (Map<String, String>) res.getClientPermissions());
+		userInformationDto.setOtherData(res.getOtherData());
 		return userInformationDto;
 	}
 }
