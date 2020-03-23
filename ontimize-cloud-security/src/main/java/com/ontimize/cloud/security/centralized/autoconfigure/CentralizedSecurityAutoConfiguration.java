@@ -49,7 +49,7 @@ public class CentralizedSecurityAutoConfiguration extends WebSecurityConfigurerA
 	@Value("${ontimize.security.servicePath:/**}")
 	private String servicePath;
 
-	@Value("${ontimize.security.ignorePaths}")
+	@Value("${ontimize.security.ignorePaths:")
 	private String[] ignorePaths;
 
 	@Autowired
