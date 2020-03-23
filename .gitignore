@@ -1,2 +1,7 @@
 /.project
 /.settings
+/.iml
+*.iml
+.idea/libraries
+target/
+.idea/

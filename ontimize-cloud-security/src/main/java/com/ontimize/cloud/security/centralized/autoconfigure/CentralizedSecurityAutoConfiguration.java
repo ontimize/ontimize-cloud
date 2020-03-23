@@ -49,8 +49,22 @@ public class CentralizedSecurityAutoConfiguration extends WebSecurityConfigurerA
 	@Value("${ontimize.security.servicePath:/**}")
 	private String servicePath;
 
+	@Value("${ontimize.security.ignorePaths}")
+	private String[] ignorePaths;
+
 	@Autowired
 	ICentralizedAuthProvider	remoteAuthInfo;
+
+	/*
+	   		.authorizeRequests()
+        .antMatchers("/ping**")
+        .permitAll()
+        .and()
+        .authorizeRequests()
+        .anyRequest()
+        .authenticated()
+        .and()
+	 */
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
@@ -58,7 +72,7 @@ public class CentralizedSecurityAutoConfiguration extends WebSecurityConfigurerA
 		.exceptionHandling().authenticationEntryPoint(this.authenticationEntryPoint())//
 		// private
 		.and().csrf().disable().anonymous().disable() // Anonymous disable
-		.authorizeRequests().antMatchers(this.servicePath).permitAll().anyRequest().authenticated()
+		.authorizeRequests().anyRequest().authenticated()
 		// no create sessions
 		.and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.NEVER)
 		// ontimize filters
@@ -69,6 +83,9 @@ public class CentralizedSecurityAutoConfiguration extends WebSecurityConfigurerA
 	@Override
 	public void configure(WebSecurity web) throws Exception {
 		web.ignoring().antMatchers("/resources/**");
+		if (ignorePaths!=null && ignorePaths.length >0){
+			web.ignoring().antMatchers(ignorePaths);
+		}
 	}
 
 	// @Bean no puede ser un bean porque se configuraria para todos los websecurity de la aplicacion
